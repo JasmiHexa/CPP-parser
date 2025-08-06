@@ -4,10 +4,13 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
-#include <map>
-#include <algorithm>
 
 using namespace std;
+
+// Function declarations for functions in other files
+void validateInput(const string& input);
+void processData(const string& data);
+void calculateMetrics(const vector<double>& values);
 
 // Functions in this file
 void displayResults(const string& title, const vector<string>& results) {
@@ -25,6 +28,10 @@ void displayResults(const string& title, const vector<string>& results) {
     
     cout << "File3: " << string(50, '=') << endl;
     cout << "File3: Total results displayed: " << results.size() << endl;
+    
+    // Call function from file1
+    string summary = "Displayed " + to_string(results.size()) + " results";
+    validateInput(summary);
 }
 
 void saveToFile(const string& filename, const vector<string>& data) {
@@ -47,6 +54,9 @@ void saveToFile(const string& filename, const vector<string>& data) {
     
     file.close();
     cout << "File3: Data saved successfully to " << filename << endl;
+    
+    // Call function from file2
+    processData("File saved: " + filename);
 }
 
 void formatOutput(const vector<double>& values, const string& format) {
@@ -77,6 +87,9 @@ void formatOutput(const vector<double>& values, const string& format) {
             cout << "File3: " << value << endl;
         }
     }
+    
+    // Call function from file2
+    calculateMetrics(values);
 }
 
 void createSummary(const vector<string>& items) {
@@ -105,7 +118,7 @@ void createSummary(const vector<string>& items) {
         summary.push_back("  " + string(1, pair.first) + ": " + to_string(pair.second));
     }
     
-    // Display the summary
+    // Call function from file3 (recursive call to displayResults)
     displayResults("File3 Summary", summary);
 }
 
@@ -139,6 +152,9 @@ void exportData(const vector<int>& data, const string& format) {
     
     string exportedData = ss.str();
     cout << "File3: Exported data: " << exportedData << endl;
+    
+    // Call function from file1
+    validateInput(exportedData);
 }
 
 // Main function for file3

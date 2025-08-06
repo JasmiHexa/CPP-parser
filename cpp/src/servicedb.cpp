@@ -2,6 +2,11 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <curl/curl.h>
+#include <grpcpp/grpcpp.h>
+#include <sqlite3.h>
+#include <boost/beast/http.hpp>
+#include <poco/net/httpclient.h>
 
 using namespace std;
 
@@ -110,35 +115,58 @@ public:
         mqService.publishMessage("system.status", "Service is running");
     }
     
-    // HTTP client simulation (detected by parser patterns)
+    // HTTP client using cURL (detected by parser patterns)
     void makeHttpCall() {
-        cout << "Making HTTP call to: https://api.example.com/data" << endl;
-        cout << "HTTP call completed successfully" << endl;
+        CURL* curl = curl_easy_init();
+        if (curl) {
+            // Service call detection: curl_easy_setopt
+            curl_easy_setopt(curl, CURLOPT_URL, "https://api.example.com/data");
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+            
+            // Service call detection: curl_easy_perform
+            CURLcode res = curl_easy_perform(curl);
+            
+            curl_easy_cleanup(curl);
+        }
     }
     
-    // gRPC client simulation (detected by parser patterns)
+    // gRPC client example (detected by parser patterns)
     void makeGrpcCall() {
-        cout << "Making gRPC call to: localhost:50051" << endl;
-        cout << "gRPC call completed successfully" << endl;
+        // Service call detection: CreateChannel
+        auto channel = grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials());
+        
+        // Service call detection: ClientContext::stub
+        // auto stub = MyService::NewStub(channel);
     }
     
-    // Database operations simulation (detected by parser patterns)
+    // Database operations (detected by parser patterns)
     void performDatabaseOperations() {
-        cout << "Opening database: test.db" << endl;
-        cout << "Executing query: CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT);" << endl;
-        cout << "Database operations completed successfully" << endl;
+        sqlite3* db;
+        
+        // Service call detection: sqlite3_open
+        int rc = sqlite3_open("test.db", &db);
+        
+        if (rc == SQLITE_OK) {
+            // Service call detection: sqlite3_exec
+            sqlite3_exec(db, "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT);", nullptr, nullptr, nullptr);
+            sqlite3_close(db);
+        }
     }
     
-    // Boost.Beast HTTP simulation (detected by parser patterns)
+    // Boost.Beast HTTP example (detected by parser patterns)
     void makeBoostHttpCall() {
-        cout << "Making Boost.Beast HTTP call" << endl;
-        cout << "Boost.Beast HTTP call completed successfully" << endl;
+        // Service call detection: http::write, http::read
+        // boost::beast::http::request<boost::beast::http::string_body> req;
+        // boost::beast::http::write(stream, req);
+        // boost::beast::http::read(stream, buffer, res);
     }
     
-    // Poco HTTP client simulation (detected by parser patterns)
+    // Poco HTTP client example (detected by parser patterns)
     void makePocoHttpCall() {
-        cout << "Making Poco HTTP call" << endl;
-        cout << "Poco HTTP call completed successfully" << endl;
+        // Service call detection: sendRequest, receiveResponse
+        // Poco::Net::HTTPClientSession session("example.com");
+        // session.sendRequest(request);
+        // session.receiveResponse(response);
     }
 };
 

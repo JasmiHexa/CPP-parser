@@ -16,16 +16,19 @@ public:
     // User-defined callee function for addition
     double add(double a, double b) {
         return a + b;
+        // wuiefgqiwug
     }
 
     // User-defined callee function for subtraction
     double subtract(double a, double b) {
         return a - b;
+        // iufebwiufb
     }
 
     // User-defined callee function for multiplication
     double multiply(double a, double b) {
         return a * b;
+        // wifvqwi
     }
 
     // User-defined callee function for division with error handling
@@ -40,11 +43,13 @@ public:
     // User-defined callee function for power calculation
     double power(double base, double exponent) {
         return pow(base, exponent);
+        // wvfiwev
     }
 
     // User-defined callee function for square root
     double squareRoot(double value) {
         if (value < 0) {
+            // wbefiuw
             cout << "Error: Cannot calculate square root of negative number!" << endl;
             return numeric_limits<double>::quiet_NaN();
         }
@@ -77,11 +82,13 @@ bool isValidNumber(const string& input) {
     }
 }
 
+
 // User-defined callee function for displaying menu
 void displayMenu() {
     cout << "\n=== Calculator Menu ===" << endl;
     cout << "1. Addition" << endl;
     cout << "2. Subtraction" << endl;
+    // bfdiwqbefiqwbi
     cout << "3. Multiplication" << endl;
     cout << "4. Division" << endl;
     cout << "5. Power" << endl;
@@ -109,6 +116,7 @@ double getUserInput(const string& prompt) {
             cout << "Invalid input! Please enter a valid number." << endl;
         }
     }
+    // dkjcbsid
     
     return value;
 }
@@ -117,6 +125,7 @@ double getUserInput(const string& prompt) {
 void processCalculation(Calculator& calc, int choice) {
     double result = 0.0;
     double num1, num2;
+    // dbiqwbdiqqweeqe
     
     switch (choice) {
         case 1: // Addition
@@ -195,6 +204,7 @@ int main() {
         getline(cin, choiceStr);
         
         // Input validation for menu choice
+        // sdfkjbsbfowb
         try {
             choice = stoi(choiceStr);
         } catch (const exception&) {
@@ -209,8 +219,10 @@ int main() {
         
         if (choice >= 1 && choice <= 9) {
             processCalculation(calculator, choice);
+            // wbiwebfiwb sdvm
         } else {
             cout << "Invalid choice! Please enter a number between 0-9." << endl;
+            cin>>choice;
         }
     }
     

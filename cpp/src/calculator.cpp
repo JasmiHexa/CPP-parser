@@ -3,11 +3,16 @@
 
 using namespace std;
 
+// Forward declarations for functions in math_utils.cpp
+extern double square_root(double x);
+extern double power(double base, double exponent);
+extern int factorial(int n);
+
 // Function to calculate the area of a circle
 double calculate_circle_area(double radius) {
     cout << "Calculating circle area with radius: " << radius << endl;
     double pi = 3.14159;
-    double area = pi * pow(radius, 2);
+    double area = pi * power(radius, 2);
     cout << "Circle area: " << area << endl;
     return area;
 }
@@ -15,8 +20,8 @@ double calculate_circle_area(double radius) {
 // Function to calculate the hypotenuse of a right triangle
 double calculate_hypotenuse(double a, double b) {
     cout << "Calculating hypotenuse for sides: " << a << " and " << b << endl;
-    double sum_squares = pow(a, 2) + pow(b, 2);
-    double hypotenuse = sqrt(sum_squares);
+    double sum_squares = power(a, 2) + power(b, 2);
+    double hypotenuse = square_root(sum_squares);
     cout << "Hypotenuse: " << hypotenuse << endl;
     return hypotenuse;
 }
@@ -27,14 +32,9 @@ int calculate_combinations(int n, int r) {
     if (r > n) return 0;
     if (r == 0 || r == n) return 1;
     
-    // Calculate factorial for n, r, and (n-r)
-    int n_fact = 1, r_fact = 1, nr_fact = 1;
-    
-    for (int i = 2; i <= n; i++) n_fact *= i;
-    for (int i = 2; i <= r; i++) r_fact *= i;
-    for (int i = 2; i <= (n-r); i++) nr_fact *= i;
-    
-    int result = n_fact / (r_fact * nr_fact);
+    int numerator = factorial(n);
+    int denominator = factorial(r) * factorial(n - r);
+    int result = numerator / denominator;
     cout << "Combinations result: " << result << endl;
     return result;
 }
@@ -43,13 +43,13 @@ int calculate_combinations(int n, int r) {
 double calculate_compound_interest(double principal, double rate, int time) {
     cout << "Calculating compound interest for principal: " << principal 
          << ", rate: " << rate << ", time: " << time << endl;
-    double amount = principal * pow(1 + rate, time);
+    double amount = principal * power(1 + rate, time);
     double interest = amount - principal;
     cout << "Compound interest: " << interest << endl;
     return interest;
 }
 
-// Main function to demonstrate calculator functions
+// Main function to demonstrate cross-file function calls
 int main() {
     cout << "=== Calculator Functions Demo ===" << endl;
     

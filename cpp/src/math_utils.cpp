@@ -3,6 +3,12 @@
 
 using namespace std;
 
+// Forward declarations for functions in calculator.cpp
+extern double calculate_circle_area(double radius);
+extern double calculate_hypotenuse(double a, double b);
+extern int calculate_combinations(int n, int r);
+extern double calculate_compound_interest(double principal, double rate, int time);
+
 // Function to calculate square root
 double square_root(double x) {
     cout << "  Computing square root of: " << x << endl;
@@ -61,47 +67,6 @@ double logarithm(double x, double base = 10.0) {
     double result = log(x) / log(base);
     cout << "  Logarithm result: " << result << endl;
     return result;
-}
-
-// Function to calculate circle area
-double calculate_circle_area(double radius) {
-    cout << "  Computing circle area with radius: " << radius << endl;
-    double pi = 3.14159;
-    double area = pi * power(radius, 2);
-    cout << "  Circle area result: " << area << endl;
-    return area;
-}
-
-// Function to calculate hypotenuse
-double calculate_hypotenuse(double a, double b) {
-    cout << "  Computing hypotenuse for sides: " << a << " and " << b << endl;
-    double sum_squares = power(a, 2) + power(b, 2);
-    double hypotenuse = square_root(sum_squares);
-    cout << "  Hypotenuse result: " << hypotenuse << endl;
-    return hypotenuse;
-}
-
-// Function to calculate combinations
-int calculate_combinations(int n, int r) {
-    cout << "  Computing combinations C(" << n << ", " << r << ")" << endl;
-    if (r > n) return 0;
-    if (r == 0 || r == n) return 1;
-    
-    int numerator = factorial(n);
-    int denominator = factorial(r) * factorial(n - r);
-    int result = numerator / denominator;
-    cout << "  Combinations result: " << result << endl;
-    return result;
-}
-
-// Function to calculate compound interest
-double calculate_compound_interest(double principal, double rate, int time) {
-    cout << "  Computing compound interest for principal: " << principal 
-         << ", rate: " << rate << ", time: " << time << endl;
-    double amount = principal * power(1 + rate, time);
-    double interest = amount - principal;
-    cout << "  Compound interest result: " << interest << endl;
-    return interest;
 }
 
 // Function to demonstrate calling calculator functions

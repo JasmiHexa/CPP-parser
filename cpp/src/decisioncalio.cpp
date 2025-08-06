@@ -3,8 +3,6 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
-#include <limits>
-#include <string>
 
 using namespace std;
 
@@ -48,11 +46,6 @@ struct Statistics {
 
 Statistics calculateStatistics(const vector<double>& numbers) {
     Statistics stats;
-    
-    if (numbers.empty()) {
-        stats.mean = stats.median = stats.standardDeviation = 0.0;
-        return stats;
-    }
     
     // Calculate mean
     double sum = 0;
@@ -163,65 +156,50 @@ int main() {
     
     // 8. Simple Calculator Loop
     cout << "8. Interactive Calculator (Enter 'q' to quit):\n";
-    string operation;
+    char operation;
     double num1, num2;
     
     while (true) {
         cout << "Enter operation (+, -, *, /, ^, sqrt) or 'q' to quit: ";
         cin >> operation;
         
-        if (operation == "q" || operation == "Q") {
+        if (operation == 'q' || operation == 'Q') {
             break;
         }
         
-        if (operation == "sqrt") {
+        if (operation == 'sqrt') {
             cout << "Enter number: ";
-            if (cin >> num1) {
-                if (num1 >= 0) {
-                    cout << "√" << num1 << " = " << sqrt(num1) << "\n";
-                } else {
-                    cout << "Error: Cannot calculate square root of negative number!\n";
-                }
-            } else {
-                cout << "Invalid input!\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            }
-        } else if (operation == "+" || operation == "-" || operation == "*" || 
-                   operation == "/" || operation == "^") {
-            cout << "Enter first number: ";
-            if (!(cin >> num1)) {
-                cout << "Invalid input!\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            
-            cout << "Enter second number: ";
-            if (!(cin >> num2)) {
-                cout << "Invalid input!\n";
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            }
-            
-            if (operation == "+") {
-                cout << num1 << " + " << num2 << " = " << num1 + num2 << "\n";
-            } else if (operation == "-") {
-                cout << num1 << " - " << num2 << " = " << num1 - num2 << "\n";
-            } else if (operation == "*") {
-                cout << num1 << " * " << num2 << " = " << num1 * num2 << "\n";
-            } else if (operation == "/") {
-                if (num2 != 0) {
-                    cout << num1 << " / " << num2 << " = " << num1 / num2 << "\n";
-                } else {
-                    cout << "Error: Division by zero!\n";
-                }
-            } else if (operation == "^") {
-                cout << num1 << " ^ " << num2 << " = " << pow(num1, num2) << "\n";
-            }
+            cin >> num1;
+            cout << "√" << num1 << " = " << sqrt(num1) << "\n";
         } else {
-            cout << "Invalid operation!\n";
+            cout << "Enter first number: ";
+            cin >> num1;
+            cout << "Enter second number: ";
+            cin >> num2;
+            
+            switch (operation) {
+                case '+':
+                    cout << num1 << " + " << num2 << " = " << num1 + num2 << "\n";
+                    break;
+                case '-':
+                    cout << num1 << " - " << num2 << " = " << num1 - num2 << "\n";
+                    break;
+                case '*':
+                    cout << num1 << " * " << num2 << " = " << num1 * num2 << "\n";
+                    break;
+                case '/':
+                    if (num2 != 0) {
+                        cout << num1 << " / " << num2 << " = " << num1 / num2 << "\n";
+                    } else {
+                        cout << "Error: Division by zero!\n";
+                    }
+                    break;
+                case '^':
+                    cout << num1 << " ^ " << num2 << " = " << pow(num1, num2) << "\n";
+                    break;
+                default:
+                    cout << "Invalid operation!\n";
+            }
         }
         cout << "\n";
     }

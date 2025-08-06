@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <iomanip>
-#include <limits>
 
 using namespace std;
 
@@ -28,24 +27,21 @@ public:
         double salary;
 
         cout << "Enter your name: ";
-        getline(cin, name);
+        cin >> name;
 
         cout << "Enter your age: ";
-        while (!(cin >> age) || age < 0 || age > 150) {
-            cout << "Invalid age! Please enter a valid age (0-150): ";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+        cin >> age;
 
         cout << "Enter your salary: ";
-        while (!(cin >> salary) || salary < 0) {
-            cout << "Invalid salary! Please enter a valid positive number: ";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+        cin >> salary;
 
-        // Clear the input buffer
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        // Input validation
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(512, '\n');
+            cout << "Invalid input! Please try again." << endl;
+            return;
+        }
 
         cout << "\nUser Information:" << endl;
         cout << "Name: " << name << endl;
@@ -63,14 +59,11 @@ public:
 
         string line;
         cout << "Reading from file: " << filename << endl;
-        int lineCount = 0;
         while (getline(inputFile, line)) {
-            lineCount++;
-            cout << "Line " << lineCount << ": " << line << endl;
+            cout << line << endl;
         }
 
         inputFile.close();
-        cout << "Total lines read: " << lineCount << endl;
         return true;
     }
 
@@ -102,7 +95,7 @@ public:
                      data.size() * sizeof(int));
         binFile.close();
         
-        cout << "Binary data written successfully: " << data.size() << " integers" << endl;
+        cout << "Binary data written successfully" << endl;
         return true;
     }
 
@@ -118,17 +111,11 @@ public:
         streamsize size = binFile.tellg();
         binFile.seekg(0, ios::beg);
 
-        if (size % sizeof(int) != 0) {
-            cout << "Error: Binary file size is not a multiple of int size" << endl;
-            binFile.close();
-            return false;
-        }
-
         data.resize(size / sizeof(int));
         binFile.read(reinterpret_cast<char*>(data.data()), size);
         binFile.close();
         
-        cout << "Binary data read successfully: " << data.size() << " integers" << endl;
+        cout << "Binary data read successfully" << endl;
         return true;
     }
 
@@ -138,34 +125,18 @@ public:
         stringstream ss(data);
         
         string name;
-        string ageStr, salaryStr;
         int age;
         double salary;
+        char comma;
 
         // Parse CSV-like data
-        if (getline(ss, name, ',')) {
-            if (getline(ss, ageStr, ',')) {
-                if (getline(ss, salaryStr)) {
-                    try {
-                        age = stoi(ageStr);
-                        salary = stod(salaryStr);
-                        
-                        cout << "Parsed data from string stream:" << endl;
-                        cout << "Name: " << name << endl;
-                        cout << "Age: " << age << endl;
-                        cout << "Salary: $" << fixed << setprecision(2) << salary << endl;
-                    } catch (const exception& e) {
-                        cout << "Error parsing numeric values: " << e.what() << endl;
-                    }
-                } else {
-                    cout << "Error: Could not read salary" << endl;
-                }
-            } else {
-                cout << "Error: Could not read age" << endl;
-            }
-        } else {
-            cout << "Error: Could not read name" << endl;
-        }
+        getline(ss, name, ',');
+        ss >> age >> comma >> salary;
+
+        cout << "Parsed data from string stream:" << endl;
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "Salary: $" << fixed << setprecision(2) << salary << endl;
     }
 
     // Formatted I/O operations
@@ -200,9 +171,6 @@ public:
                 testOutput << "Sample data line 3" << endl;
                 testOutput.close();
                 cout << "File created successfully" << endl;
-            } else {
-                cout << "Error: Could not create file" << endl;
-                return;
             }
         } else {
             testInput.close();
@@ -218,9 +186,6 @@ public:
                 cout << "Line " << lineCount << ": " << line << endl;
             }
             readTest.close();
-            cout << "Successfully read " << lineCount << " lines" << endl;
-        } else {
-            cout << "Error: Could not open file for reading" << endl;
         }
     }
 

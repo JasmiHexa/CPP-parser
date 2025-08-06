@@ -3,9 +3,13 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
-#include <cmath>
 
 using namespace std;
+
+// Function declarations for functions in other files
+void validateInput(const string& input);
+void generateReport(const string& reportType);
+void displayResults(const string& title, const vector<string>& results);
 
 // Functions in this file
 void processData(const string& data) {
@@ -23,6 +27,9 @@ void processData(const string& data) {
     string upperData = data;
     transform(upperData.begin(), upperData.end(), upperData.begin(), ::toupper);
     cout << "File2: Uppercase version: " << upperData << endl;
+    
+    // Call function from file1
+    validateInput(upperData);
 }
 
 void calculateMetrics(const vector<double>& values) {
@@ -55,6 +62,15 @@ void calculateMetrics(const vector<double>& values) {
     cout << "  Variance: " << variance << endl;
     cout << "  Standard Deviation: " << stdDev << endl;
     cout << "  Min: " << min << ", Max: " << max << endl;
+    
+    // Call function from file3
+    vector<string> metricResults;
+    metricResults.push_back("Sum: " + to_string(sum));
+    metricResults.push_back("Mean: " + to_string(mean));
+    metricResults.push_back("StdDev: " + to_string(stdDev));
+    metricResults.push_back("Range: " + to_string(max - min));
+    
+    displayResults("File2 Metrics", metricResults);
 }
 
 void sortData(vector<int>& data) {
@@ -73,6 +89,10 @@ void sortData(vector<int>& data) {
         cout << value << " ";
     }
     cout << endl;
+    
+    // Call function from file1
+    string reportType = "Sorted Data Report";
+    generateReport(reportType);
 }
 
 void filterData(const vector<string>& data, const string& filter) {
@@ -93,6 +113,9 @@ void filterData(const vector<string>& data, const string& filter) {
             cout << "  - " << item << endl;
         }
     }
+    
+    // Call function from file3
+    displayResults("File2 Filtered Data", filteredData);
 }
 
 void transformData(vector<double>& data, double factor) {
@@ -114,7 +137,7 @@ void transformData(vector<double>& data, double factor) {
     }
     cout << endl;
     
-    // Calculate metrics on transformed data
+    // Call function from file2 (recursive call to calculateMetrics)
     calculateMetrics(data);
 }
 
@@ -147,8 +170,8 @@ int main() {
     
     // Test transformData function
     cout << "\n5. Testing transformData:" << endl;
-    vector<double> dataToTransform = {1.0, 2.0, 3.0, 4.0};
-    transformData(dataToTransform, 2.5);
+    vector<double> transformData = {1.0, 2.0, 3.0, 4.0};
+    transformData(transformData, 2.5);
     transformData({}, 1.5);
     
     cout << "\n=== File2 Main Function Completed ===" << endl;
